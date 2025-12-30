@@ -1,66 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Face Attendance System 📸
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Absensi Wajah berbasis Web yang dibangun menggunakan **Laravel 10** dan **Face-API.js**. 
+Aplikasi ini memungkinkan karyawan untuk melakukan absensi (Check In / Check Out) menggunakan pengenalan wajah real-time, serta membantu HRD dalam mengelola jadwal kerja, laporan kehadiran, dan perhitungan gaji (payroll).
 
-## About Laravel
+![Dashboard Preview](https://via.placeholder.com/800x400?text=Dashboard+Face+Attendance)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🌟 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Face Recognition Attendance**: Absensi menggunakan deteksi wajah dengan anti-spoofing sederhana (live detection via face-api.js).
+- **Manajemen Karyawan**: Kelola data karyawan, jabatan, departemen, dan registrasi wajah.
+- **Jadwal Kerja (Shift)**: Mendukung multiple shift (pagi, siang, malam, dll).
+- **Laporan Kehadiran**: Rekapitulasi kehadiran harian dan bulanan (Tepat waktu, Terlambat, Pulang Awal).
+- **Payroll System**: Perhitungan gaji otomatis berdasarkan kehadiran, tunjangan, dan potongan.
+- **Admin Dashboard**: Statistik ringkas kehadiran hari ini.
+- **Premium Design**: Antarmuka modern dengan konsep Glassmorphism.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ Teknologi
 
-## Learning Laravel
+- **Backend**: Laravel 10 (PHP 8.1+)
+- **Database**: MySQL / MariaDB
+- **Frontend**: Blade Templates, Vanilla CSS (Custom Properties), JavaScript
+- **AI Library**: [face-api.js](https://github.com/justadudewhohacks/face-api.js) (TensorFlow.js core)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🚀 Instalasi Lokal
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Ikuti langkah ini untuk menjalankan project di komputer lokal:
 
-## Laravel Sponsors
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/fariz7172/attendance.git
+   cd attendance
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install Dependencies**
+   ```bash
+   composer install
+   npm install && npm run build
+   ```
 
-### Premium Partners
+3. **Setup Environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   Atur koneksi database di file `.env`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. **Migrate & Seed**
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+   *Seeder akan membuat user admin default.*
 
-## Contributing
+5. **Jalankan Server**
+   ```bash
+   php artisan serve
+   ```
+   Akses di `http://127.0.0.1:8000`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Akun Default:**
+- **Email:** `admin@gmail.com`
+- **Password:** `password`
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🌐 Panduan Deployment (Hostinger / Shared Hosting)
 
-## Security Vulnerabilities
+Aplikasi ini telah dimodifikasi agar kompatibel dengan Shared Hosting yang memiliki keterbatasan (seperti tidak support symlink atau document root kustom).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Upload File
+Upload semua file project ke folder `public_html/attendance` (atau folder subdomain Anda).
 
-## License
+### 2. Setup Database
+Buat database di panel hosting, impor file SQL (jika ada) atau jalankan migrasi via SSH:
+```bash
+php artisan migrate --force
+```
+Jangan lupa sesuaikan `.env` dengan kredensial database hosting.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 3. Konfigurasi Khusus (PENTING)
+
+#### A. Penyimpanan Gambar (Zero Symlink)
+Aplikasi ini **TIDAK** menggunakan `php artisan storage:link`.
+Semua gambar (wajah & absensi) disimpan langsung di folder `public/faces` dan `public/attendances`.
+- Pastikan folder `public/faces` dan `public/attendances` memiliki permission **755** atau **777** agar bisa ditulisi.
+
+#### B. Redirection (.htaccess)
+Jika Anda tidak bisa mengubah "Document Root" ke folder `public` (masalah umum di Shared Hosting), gunakan konfigurasi `.htaccess` berikut di **root folder project** (misal: `/public_html/attendance/.htaccess`):
+
+```apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>
+```
+
+Ini akan mengarahkan semua traffic ke folder `public` tanpa mengubah URL di browser.
+
+---
+
+## 📂 Struktur Folder Penting
+
+- `app/Http/Controllers/`: Logika backend.
+- `resources/views/`: Tampilan (Blade).
+- `public/models/`: Model AI untuk face-api.js.
+- `public/faces/`: Tempat penyimpanan foto registrasi wajah.
+- `config/filesystems.php`: Konfigurasi disk `public_uploads`.
+
+## 🤝 Kontribusi
+
+Pull requests dipersilakan. Untuk perubahan besar, mohon buka issue terlebih dahulu untuk mendiskusikan apa yang ingin Anda ubah.
+
+## 📄 Lisensi
+
+[MIT](https://choosealicense.com/licenses/mit/)
