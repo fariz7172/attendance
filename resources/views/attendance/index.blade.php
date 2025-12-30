@@ -1063,6 +1063,9 @@
             } else {
                 employeeAvatar.innerHTML = `<span>${employee.name.charAt(0).toUpperCase()}</span>`;
             }
+
+            // Fetch today's status
+            fetchTodayStatus(employee.id);
         }
 
         // Clear employee display
@@ -1073,6 +1076,9 @@
             employeeInfo.style.display = 'none';
             employeeCard.classList.remove('recognized');
             enableButtons(false);
+
+            // Reset status display
+            resetStatusDisplay();
         }
 
         // Enable/disable action buttons
@@ -1170,7 +1176,7 @@
             document.getElementById('resultModal').classList.remove('active');
         }
 
-        // Update today's status display
+        // Update today's status display (single record)
         function updateTodayStatus(attendance) {
             const typeMap = {
                 'clock_in': 'clockInTime',
@@ -1179,7 +1185,7 @@
                 'break_end': 'breakEndTime'
             };
 
-            const elementId = typeMap[attendance.type.replace(/([A-Z])/g, '_$1').toLowerCase()];
+            const elementId = typeMap[attendance.type];
             if (elementId) {
                 const el = document.getElementById(elementId);
                 if (el) {
@@ -1187,6 +1193,65 @@
                     el.classList.remove('pending');
                 }
             }
+        }
+
+        // Fetch today's status from server
+        async function fetchTodayStatus(employeeId) {
+            try {
+                const response = await fetch('/api/attendance/status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({ employee_id: employeeId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success && result.today_status) {
+                    updateFullStatus(result.today_status);
+                }
+            } catch (error) {
+                console.error('Error fetching existing status:', error);
+            }
+        }
+
+        // Update full status display
+        function updateFullStatus(statusData) {
+            const typeMap = {
+                'clock_in': 'clockInTime',
+                'clock_out': 'clockOutTime',
+                'break_start': 'breakStartTime',
+                'break_end': 'breakEndTime'
+            };
+
+            for (const [type, data] of Object.entries(statusData)) {
+                if (typeMap[type]) {
+                    const el = document.getElementById(typeMap[type]);
+                    if (el) {
+                        if (data && data.time) {
+                            el.textContent = data.time;
+                            el.classList.remove('pending');
+                        } else {
+                            el.textContent = '-';
+                            el.classList.add('pending');
+                        }
+                    }
+                }
+            }
+        }
+
+        // Reset status display
+        function resetStatusDisplay() {
+            const ids = ['clockInTime', 'clockOutTime', 'breakStartTime', 'breakEndTime'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = '-';
+                    el.classList.add('pending');
+                }
+            });
         }
 
         // Event listeners
